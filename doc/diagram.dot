@@ -1,0 +1,18 @@
+digraph TSV_Lexer {
+	rankdir=LR;
+	node [shape = circle, fontname="Arial"];
+
+	// States
+	Start [shape = doublecircle, label="START"];
+	InField [label="COLLECTING"];
+	Field [shape = doublecircle, label="FIELD"];
+	EndField [shape = doublecircle, label="ENDFIELD"];
+
+	Start -> Start [label="nonprinting"]
+	Start -> InField [label="printing"]
+	InField -> InField [label="printing"]
+	InField -> Field [label="TAB"]
+	InField -> EndField [label="\\n, \\r"]
+
+	label = "\nTSV Lexer\nNo escaping support";
+}
