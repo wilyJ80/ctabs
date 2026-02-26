@@ -25,25 +25,26 @@ void* start(struct GraphState* graphState) {
 		return NULL;
 	
 	} else if (!isprint((char)graphState->currentChar)) {
-		_consumeAndLexemeBuildingIs(false, graphState);
+		graphState->consumeAndLexemeBuildingIs(false, graphState);
 		return start;
+
 	} else {
-		_consumeAndLexemeBuildingIs(true, graphState);
+		graphState->consumeAndLexemeBuildingIs(true, graphState);
 		return _inField;
 	}
 }
 
 void* _inField(struct GraphState* graphState) {
 	if (isprint((char)graphState->currentChar)) {
-		_consumeAndLexemeBuildingIs(true, graphState);
+		graphState->consumeAndLexemeBuildingIs(true, graphState);
 		return _inField;
 
 	} else if ((char)graphState->currentChar == (char)'\t') {
-		_consumeAndLexemeBuildingIs(false, graphState);
+		graphState->consumeAndLexemeBuildingIs(false, graphState);
 		return _field;
 	
 	} else if ((char)graphState->currentChar == (char)'\n' || graphState->currentChar == EOF) {
-		_consumeAndLexemeBuildingIs(false, graphState);
+		graphState->consumeAndLexemeBuildingIs(false, graphState);
 		return _endField;
 	}
 	return NULL; // Just to satisfy clangd

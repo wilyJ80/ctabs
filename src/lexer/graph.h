@@ -11,7 +11,7 @@ struct GraphState {
 	char* currentLexeme;
 	int currentLexemeSize;
 	struct Stack* stack;
-	void (*consumeAndLexemeBuildingIs)(bool isLexeme, struct GraphState* self, FILE *file);
+	void (*consumeAndLexemeBuildingIs)(bool isLexeme, struct GraphState* self);
 	FILE *filePointer;
 	bool isDebugOn;
 };
