@@ -34,11 +34,17 @@ int main()
 		func = func(&graphState);
 	}
 
-	assert(graphState.stack->tokens[0] == FIELD);
-	assert(graphState.stack->tokens[1] == FIELD);
-	assert(graphState.stack->tokens[2] == ENDFIELD);
-	assert(graphState.stack->tokens[3] == FIELD);
-	assert(graphState.stack->tokens[4] == ENDFIELD);
+	printf("%d\n", graphState.stack->tokens[0]);
+	printf("%d\n", graphState.stack->tokens[1]);
+	printf("%d\n", graphState.stack->tokens[2]);
+	printf("%d\n", graphState.stack->tokens[3]);
+	printf("%d\n", graphState.stack->tokens[4]);
+
+	assert(graphState.stack->tokens[0] == FIELD); // something
+	assert(graphState.stack->tokens[1] == FIELD); // something
+	assert(graphState.stack->tokens[2] == ENDFIELD); // empty field, last one
+	assert(graphState.stack->tokens[3] == FIELD); // yetanotherthing
+	assert(graphState.stack->tokens[4] == ENDFIELD); // yetanotherthing (last one)
 
 	return EXIT_SUCCESS;
 }

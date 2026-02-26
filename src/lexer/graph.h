@@ -20,7 +20,9 @@ void _consumeAndLexemeBuildingIs(bool isLexeme, struct GraphState* self);
 
 void* start(struct GraphState* graphState);
 
-void* _inField(struct GraphState* graphState);
+void* _collecting(struct GraphState* graphState);
+
+void* _isField(struct GraphState* graphState);
 
 void* _field(struct GraphState* graphState);
 
