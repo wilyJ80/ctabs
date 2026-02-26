@@ -2,9 +2,9 @@
 #include "token_type.h"
 
 int initStack(struct Stack* self) {
-	struct Stack stack = {
-		.index = 0
-	};
+	self->index = 0;
+	self->initStack = initStack;
+	self->addItem = addItem;
 	return 0;
 }
 

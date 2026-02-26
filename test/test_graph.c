@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,7 +7,7 @@
 
 int main()
 {
-	const char* mockData = "something\tsomething\t";
+	const char* mockData = "something\tsomething\t\nyetanotherthing\tyetanotherthing\n";
 	FILE *mockFile = fmemopen((void*)mockData, strlen(mockData), "r");
 	if (mockFile == NULL) {
 		fprintf(stderr, "[ERROR] Error opening source file.\n");
@@ -14,6 +15,7 @@ int main()
 	}
 
 	struct Stack stack;
+	initStack(&stack);
 	char lexemeBuffer[MAX_LEXEME_SIZE];
 	struct GraphState graphState = {
 		.currentLexeme = lexemeBuffer,
@@ -30,6 +32,16 @@ int main()
 	while (func != NULL) {
 		func = func(&graphState);
 	}
+
+	assert(graphState.stack->tokens[0] == FIELD);
+	assert(graphState.stack->tokens[1] == FIELD);
+	assert(graphState.stack->tokens[2] == FIELD);
+	assert(graphState.stack->tokens[3] == ENDFIELD);
+
+	printf("%d\n", graphState.stack->tokens[0]);
+	printf("%d\n", graphState.stack->tokens[1]);
+	printf("%d\n", graphState.stack->tokens[2]);
+	printf("%d\n", graphState.stack->tokens[3]);
 
 	return EXIT_SUCCESS;
 }

@@ -6,23 +6,25 @@
 #include <stdio.h>
 
 void _consumeAndLexemeBuildingIs(bool isLexeme, struct GraphState* self) {
-	int ch = fgetc(self->filePointer);
-	self->currentChar = (char)ch;
-	if (self->isDebugOn) {
-		printf("[INFO] Consumed char: %c\n", self->currentChar);
-	}
 	if (isLexeme) {
-		self->currentLexeme[self->currentLexemeSize] = (char) ch;
+		self->currentLexeme[self->currentLexemeSize] = self->currentChar;
 		self->currentLexeme[++(self->currentLexemeSize)] = '\0';
 		if (self->isDebugOn) {
 			printf("[INFO] Updated lexeme: %s\n", self->currentLexeme);
 		}
 	}
+	int ch = fgetc(self->filePointer);
+	self->currentChar = (char)ch;
+	if (self->isDebugOn) {
+		printf("[INFO] Consumed char: %c\n", self->currentChar);
+	}
 }
 
 void* start(struct GraphState* graphState) {
-	if (!isprint((char)graphState->currentChar)) {
-		printf("[INFO] Not printing.");
+	if (graphState->currentChar == EOF) {
+		return NULL;
+	
+	} else if (!isprint((char)graphState->currentChar)) {
 		_consumeAndLexemeBuildingIs(false, graphState);
 		return start;
 	} else {
@@ -49,10 +51,14 @@ void* _inField(struct GraphState* graphState) {
 
 void* _field(struct GraphState* graphState) {
 	graphState->stack->addItem(graphState->stack, FIELD);
-	return NULL;
+	graphState->currentLexeme[0] = '\0';
+	graphState->currentLexemeSize = 0;
+	return start;
 }
 
 void* _endField(struct GraphState* graphState) {
 	graphState->stack->addItem(graphState->stack, ENDFIELD);
-	return NULL;
+	graphState->currentLexeme[0] = '\0';
+	graphState->currentLexemeSize = 0;
+	return start;
 }
