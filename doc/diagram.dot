@@ -4,15 +4,18 @@ digraph TSV_Lexer {
 
 	// States
 	Start [shape = doublecircle, label="START"];
-	InField [label="COLLECTING"];
-	Field [shape = doublecircle, label="FIELD"];
+	Collecting [label="COLLECTING"];
 	EndField [shape = doublecircle, label="ENDFIELD"];
+	IsField [label="ISFIELD"]
+	Field [shape = doublecircle, label="FIELD"];
 
 	Start -> Start [label="nonprinting"]
-	Start -> InField [label="printing"]
-	InField -> InField [label="printing"]
-	InField -> Field [label="TAB"]
-	InField -> EndField [label="\\n, \\r"]
+	Start -> Collecting [label="printing"]
+	Collecting -> Collecting [label="printing"]
+	Collecting -> EndField [label="\\n, \\r"]
+	Collecting -> IsField [label="\\t"]
+	IsField -> EndField [label="\\n, \\r"]
+	IsField -> Field [label="other*"]
 
 	label = "\nTSV Lexer\nNo escaping support";
 }
